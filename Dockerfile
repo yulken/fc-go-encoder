@@ -19,7 +19,6 @@ RUN apk add --update --upgrade python unzip bash gcc g++ scons && \
     unzip Bento4-${BENTO4_TYPE}-${BENTO4_VERSION}${BENTO4_TARGET}.zip -d ${BENTO4_PATH} && \
     rm -rf Bento4-${BENTO4_TYPE}-${BENTO4_VERSION}${BENTO4_TARGET}.zip && \
     apk del unzip && \
-    # # don't do these steps if using binary install
     cd ${BENTO4_PATH} && scons -u build_config=Release target=x86_64-unknown-linux
 
 FROM golang:1.24.2-alpine3.21
@@ -31,7 +30,6 @@ WORKDIR ${BENTO4_PATH}
 COPY --from=builder ${BENTO4_PATH}/Build/Targets/x86_64-unknown-linux/Release ${BENTO4_PATH}/bin
 COPY --from=builder ${BENTO4_PATH}/Source/Python/utils ${BENTO4_PATH}/utils
 COPY --from=builder ${BENTO4_PATH}/Source/Python/wrappers/. ${BENTO4_PATH}/bin
-# # don't do these steps if using binary install
     
 RUN apk add --update --upgrade bash
 
