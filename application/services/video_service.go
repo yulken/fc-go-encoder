@@ -12,10 +12,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var (
-	LOCAL_STORAGE_PATH = "LOCAL_STORAGE_PATH"
-)
-
 type VideoService struct {
 	Video           *domain.Video
 	VideoRepository repositories.VideoRepository
