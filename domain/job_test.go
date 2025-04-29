@@ -5,13 +5,13 @@ import (
 	"testing"
 	"time"
 
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 )
 
 func TestNewJob(t *testing.T) {
 	video := domain.NewVideo()
-	video.ID = uuid.NewV4().String()
+	video.ID = uuid.New().String()
 	video.FilePath = "path"
 	video.CreatedAt = time.Now()
 

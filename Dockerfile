@@ -31,7 +31,7 @@ COPY --from=builder ${BENTO4_PATH}/Build/Targets/x86_64-unknown-linux/Release ${
 COPY --from=builder ${BENTO4_PATH}/Source/Python/utils ${BENTO4_PATH}/utils
 COPY --from=builder ${BENTO4_PATH}/Source/Python/wrappers/. ${BENTO4_PATH}/bin
     
-RUN apk add --update --upgrade bash
+RUN apk add --update --upgrade python3 ffmpeg bash make gcc build-base
 
 WORKDIR /go/src
 

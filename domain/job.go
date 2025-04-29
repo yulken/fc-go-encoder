@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/asaskevich/govalidator"
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 )
 
 type Job struct {
@@ -39,7 +39,7 @@ func NewJob(output string, status string, video *Video) (*Job, error) {
 }
 
 func (job *Job) prepare() {
-	job.ID = uuid.NewV4().String()
+	job.ID = uuid.New().String()
 	job.CreatedAt = time.Now()
 	job.UpdatedAt = time.Now()
 }

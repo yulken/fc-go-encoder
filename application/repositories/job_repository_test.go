@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 )
 
@@ -16,7 +16,7 @@ func TestJobRepositoryDbInsert(t *testing.T) {
 	defer db.Close()
 
 	video := domain.NewVideo()
-	video.ID = uuid.NewV4().String()
+	video.ID = uuid.New().String()
 	video.FilePath = "path"
 	video.CreatedAt = time.Now()
 
@@ -42,7 +42,7 @@ func TestJobRepositoryDbUpdate(t *testing.T) {
 	defer db.Close()
 
 	video := domain.NewVideo()
-	video.ID = uuid.NewV4().String()
+	video.ID = uuid.New().String()
 	video.FilePath = "path"
 	video.CreatedAt = time.Now()
 
