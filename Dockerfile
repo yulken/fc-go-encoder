@@ -1,4 +1,4 @@
-FROM alpine:3.11 AS builder
+FROM alpine:3.11@sha256:a0ce0e57c6900f6f13cee6f1c1e0337cedd745ebc1bac226c61eb574667c6d04 AS bento_compiler
 ENV PATH="$PATH:/bin/bash" \
     PATH="$PATH:/opt/bento4/bin"
 
@@ -21,16 +21,26 @@ RUN apk add --update --upgrade python unzip bash gcc g++ scons && \
     apk del unzip && \
     cd ${BENTO4_PATH} && scons -u build_config=Release target=x86_64-unknown-linux
 
-FROM golang:1.24.2-alpine3.21
+FROM golang:1.24.2-alpine3.21@sha256:7772cb5322baa875edd74705556d08f0eeca7b9c4b5367754ce3f2f00041ccee AS golang_builder
+WORKDIR /go/src
+
+ENV PATH="$PATH:/bin/bash"
+RUN apk add --update --upgrade bash
+COPY . .
+
+RUN go mod tidy
+
+FROM golang:1.24.2-alpine3.21@sha256:7772cb5322baa875edd74705556d08f0eeca7b9c4b5367754ce3f2f00041ccee
 ENV PATH="$PATH:/bin/bash" \
     PATH="$PATH:/opt/bento4/bin" \
     BENTO4_PATH="/opt/bento4" 
 
 WORKDIR ${BENTO4_PATH}
-COPY --from=builder ${BENTO4_PATH}/Build/Targets/x86_64-unknown-linux/Release ${BENTO4_PATH}/bin
-COPY --from=builder ${BENTO4_PATH}/Source/Python/utils ${BENTO4_PATH}/utils
-COPY --from=builder ${BENTO4_PATH}/Source/Python/wrappers/. ${BENTO4_PATH}/bin
-    
+COPY --from=bento_compiler ${BENTO4_PATH}/Build/Targets/x86_64-unknown-linux/Release ${BENTO4_PATH}/bin
+COPY --from=bento_compiler ${BENTO4_PATH}/Source/Python/utils ${BENTO4_PATH}/utils
+COPY --from=bento_compiler ${BENTO4_PATH}/Source/Python/wrappers/. ${BENTO4_PATH}/bin
+COPY --from=golang_builder /go /go
+
 RUN apk add --update --upgrade python3 ffmpeg bash make gcc build-base
 
 WORKDIR /go/src

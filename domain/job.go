@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -16,6 +18,43 @@ type Job struct {
 	Error            string    `valid:"-"`
 	CreatedAt        time.Time `json:"created_at" valid:"-"`
 	UpdatedAt        time.Time `json:"updated_at" valid:"-"`
+}
+
+type JobStatus int
+
+const (
+	JobStatusStarting JobStatus = iota
+	JobStatusDownloading
+	JobStatusUploading
+	JobStatusFragmenting
+	JobStatusEncoding
+	JobStatusFinishing
+	JobStatusCompleted
+	JobStatusFailed
+)
+
+func (j JobStatus) Description() (string, error) {
+	switch j {
+	case JobStatusStarting:
+		return "STARTING", nil
+	case JobStatusDownloading:
+		return "DOWNLOADING", nil
+	case JobStatusUploading:
+		return "UPLOADING", nil
+	case JobStatusFragmenting:
+		return "FRAGMENTING", nil
+	case JobStatusEncoding:
+		return "ENCODING", nil
+	case JobStatusFinishing:
+		return "FINISHING", nil
+	case JobStatusCompleted:
+		return "COMPLETED", nil
+	case JobStatusFailed:
+		return "FAILED", nil
+	}
+
+	return "", errors.New(fmt.Sprintf("invalid job status %v", j))
+
 }
 
 func init() {
