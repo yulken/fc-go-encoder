@@ -27,7 +27,7 @@ func prepare() (*domain.Video, repositories.VideoRepositoryDb) {
 	defer db.Close()
 
 	video := domain.NewVideo()
-	video.ID = uuid.New().String()
+	video.ID = uuid.NewString()
 	video.FilePath = "source/whatsapp.mp4"
 	video.CreatedAt = time.Now()
 

@@ -11,7 +11,7 @@ import (
 
 func TestNewJob(t *testing.T) {
 	video := domain.NewVideo()
-	video.ID = uuid.New().String()
+	video.ID = uuid.NewString()
 	video.FilePath = "path"
 	video.CreatedAt = time.Now()
 

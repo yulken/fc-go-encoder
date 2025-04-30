@@ -39,7 +39,7 @@ func NewJob(output string, status string, video *Video) (*Job, error) {
 }
 
 func (job *Job) prepare() {
-	job.ID = uuid.New().String()
+	job.ID = uuid.NewString()
 	job.CreatedAt = time.Now()
 	job.UpdatedAt = time.Now()
 }

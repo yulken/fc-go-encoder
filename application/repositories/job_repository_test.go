@@ -16,7 +16,7 @@ func TestJobRepositoryDbInsert(t *testing.T) {
 	defer db.Close()
 
 	video := domain.NewVideo()
-	video.ID = uuid.New().String()
+	video.ID = uuid.NewString()
 	video.FilePath = "path"
 	video.CreatedAt = time.Now()
 
@@ -42,7 +42,7 @@ func TestJobRepositoryDbUpdate(t *testing.T) {
 	defer db.Close()
 
 	video := domain.NewVideo()
-	video.ID = uuid.New().String()
+	video.ID = uuid.NewString()
 	video.FilePath = "path"
 	video.CreatedAt = time.Now()
 
